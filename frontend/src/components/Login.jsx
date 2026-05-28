@@ -15,7 +15,14 @@ const Login = ({ onLogin }) => {
       await login(username, password);
       onLogin();
     } catch (err) {
-      setError('Invalid credentials');
+      console.error(err);
+      if (err.message === 'Network Error') {
+        setError(`Cannot connect to backend: ${err.message}`);
+      } else if (err.response && err.response.status === 401) {
+        setError('Incorrect username or password');
+      } else {
+        setError(`Error: ${err.message}`);
+      }
     } finally {
       setLoading(false);
     }
