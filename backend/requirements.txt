@@ -16,6 +16,7 @@ gunicorn==21.2.0
 
 # PostgreSQL (for production deployment)
 psycopg[binary]==3.2.1
+dj-database-url==2.1.0
 
 # JWT
 PyJWT==2.13.0
