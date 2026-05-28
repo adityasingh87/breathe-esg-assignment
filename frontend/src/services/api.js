@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -26,7 +26,7 @@ api.interceptors.response.use(
 );
 
 export const login = async (username, password) => {
-  const response = await axios.post('http://localhost:8000/api/auth/token/', { username, password });
+  const response = await axios.post(`${API_URL}/auth/token/`, { username, password });
   localStorage.setItem('token', response.data.access);
   return response.data;
 };
