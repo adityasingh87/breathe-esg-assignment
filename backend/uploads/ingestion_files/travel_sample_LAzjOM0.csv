@@ -1,0 +1,6 @@
+EmployeeID,TravelType,Date,Origin,Destination,Class,Distance,Unit,HotelNights
+EMP01,Air,2023-03-01,LHR,JFK,Business,,,
+EMP02,Air,2023-03-05,BOM,DEL,Economy,1150,km,
+EMP03,Hotel,2023-03-10,,,,,,4
+EMP04,Ground,2023-03-12,,,,150,miles,
+EMP05,Air,2023-03-15,ZZZ,LHR,Economy,,,

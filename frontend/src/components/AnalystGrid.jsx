@@ -19,8 +19,9 @@ const AnalystGrid = () => {
 
   const fetchRecords = async () => {
     setLoading(true);
+    const minLoadTime = new Promise(resolve => setTimeout(resolve, 500));
     try {
-      const data = await getRecords(filters);
+      const [data] = await Promise.all([getRecords(filters), minLoadTime]);
       setRecords(data.results || []);
     } catch (error) {
       console.error('Fetch records failed', error);
@@ -99,6 +100,21 @@ const AnalystGrid = () => {
     }
   };
 
+  const handleBulkApprove = async () => {
+    const pendingIds = records.filter(r => r.review_status === 'pending').map(r => r.id);
+    if (pendingIds.length === 0) return alert('No pending records found in the current view.');
+    if (!window.confirm(`Are you sure you want to approve ${pendingIds.length} pending records?`)) return;
+    
+    try {
+      await api.post('/v1/records/bulk-approve/', { ids: pendingIds });
+      setActionMsg(`✓ Bulk approved ${pendingIds.length} records`);
+      await fetchRecords();
+    } catch (e) {
+      console.error('Bulk approve error:', e);
+      alert('Bulk approve failed');
+    }
+  };
+
   return (
     <div className="analyst-layout animate-fade-in">
       
@@ -121,9 +137,14 @@ const AnalystGrid = () => {
               <option value="locked">Locked</option>
             </select>
           </div>
-          <button onClick={fetchRecords} className="icon-btn">
-            <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
-          </button>
+          <div className="toolbar-right" style={{display: 'flex', gap: '8px'}}>
+            <button onClick={handleBulkApprove} className="btn btn-secondary" style={{fontSize: '0.85rem'}}>
+              <CheckCircle2 size={14}/> Bulk Approve Pending
+            </button>
+            <button onClick={fetchRecords} className="icon-btn">
+              <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
+            </button>
+          </div>
         </div>
 
         {/* Table */}
