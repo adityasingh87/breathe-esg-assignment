@@ -1,6 +1,7 @@
 # pyrefly: ignore [missing-import]
 from django.core.management.base import BaseCommand
 from core.models import Tenant, UnitLookup, EmissionFactor
+from django.contrib.auth.models import User
 
 class Command(BaseCommand):
     help = 'Seeds the database with initial reference data (Tenants, UnitLookup, EmissionFactors)'
@@ -18,6 +19,11 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f"Created Tenant: {tenant.name}"))
         else:
             self.stdout.write(f"Tenant already exists: {tenant.name}")
+
+        # 1.5 Create Admin User
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser('admin', 'admin@example.com', 'admin')
+            self.stdout.write(self.style.SUCCESS("Created admin user (username: admin, password: admin)"))
 
         # 2. Seed Unit Lookup
         units = [
