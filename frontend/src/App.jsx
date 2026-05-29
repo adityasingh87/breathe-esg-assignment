@@ -55,8 +55,8 @@ const App = () => {
           <div className="nav-tenant">
             Tenant: <span>Acme Corp</span>
           </div>
-          <button onClick={handleLogout} className="nav-logout" title="Logout">
-            <LogOut size={20} />
+          <button onClick={handleLogout} className="nav-logout" title="Logout" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 500, fontSize: '0.875rem' }}>
+            <LogOut size={18} /> Logout
           </button>
         </div>
       </nav>
