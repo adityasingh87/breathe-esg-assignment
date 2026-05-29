@@ -345,3 +345,8 @@ select option {
 @media(max-width: 768px) {
   .nav-links { display: none; }
 }
+
+/* Remove default focus outline on Recharts SVG elements */
+.recharts-wrapper *:focus {
+  outline: none !important;
+}
