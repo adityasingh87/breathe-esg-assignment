@@ -11,7 +11,8 @@ __pycache__/
 # Django
 db.sqlite3
 *.log
-uploads/ingestion_files/
+uploads/
+backend/uploads/
 
 # Node & Frontend
 node_modules/
